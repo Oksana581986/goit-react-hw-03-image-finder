@@ -12,7 +12,7 @@ const Searchbar = ({ onSubmit }) => {
       e.preventDefault();
       onSubmit(query);
     };
-  
+
     return (
       <header className={css.searchbar}>
         <form className={css.form} onSubmit={handleSubmit}>
@@ -23,11 +23,13 @@ const Searchbar = ({ onSubmit }) => {
           <input
             className={css.input}
             type="text"
+            name='searchInput'
             autoComplete="off"
             autoFocus
             placeholder="Search images and photos"
             value={query}
-            onChange={handleChange}
+            onChange={handleChange} 
+            required
           />
         </form>
       </header>

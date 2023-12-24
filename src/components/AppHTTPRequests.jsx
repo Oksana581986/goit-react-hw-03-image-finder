@@ -18,20 +18,20 @@ export default class AppHTTPRequests extends Component {
     isLoading: false,
     selectedImage: null,
     error: null,
-}
+  }
 
- 
-fetchImages = async () => {
+
+  fetchImages = async () => {
     try {
       const { query, page } = this.state;
       const response = await axios.get(`${BASE_URL}?q=${query}&page=${page}&key=${API_KEY}&image_type=photo&orientation=horizontal&per_page=12`);
-
       this.setState((prevState) => ({
         images: [...prevState.images, ...response.data.hits],
         page: prevState.page + 1,
-      }));
+        }));
     } catch (error) {
       console.error('Error fetching images:', error);
+      this.setState({ error: 'Error fetching images. Please try again.' });
     } finally {
       this.setState({ isLoading: false });
     }
@@ -41,14 +41,18 @@ fetchImages = async () => {
     this.fetchImages();
   }
 
+
   handleSearch = (newQuery) => {
-    this.setState({
+    this.setState(
+      {
       query: newQuery,
       page: 1,
       images: [],
+      error: null,
     }, () => {
       this.fetchImages();
-    });
+    }
+    );
   };
 
   handleLoadMore = () => {
@@ -67,19 +71,21 @@ fetchImages = async () => {
     });
   };
 
-    render () {
 
-        const { images, isLoading, selectedImage } = this.state;
+   render () {
+
+        const { images, isLoading, selectedImage, error } = this.state;
 
         return (
-         <div>
+        <div>
         <Searchbar onSubmit={this.handleSearch} />
+        {error && <p style={{ color: 'red' }}>{error}</p>}
         <ImageGallery images={images} onImageClick={this.handleImageClick} />
         {isLoading && <Loader />}
         {images.length > 0 && <Button onClick={this.handleLoadMore} isHidden={isLoading} />}
         {selectedImage && <Modal onClose={this.closeModal} src={selectedImage} alt="" />}
-      </div>
-        )
+      </div>         
+        );
      } 
 }
 

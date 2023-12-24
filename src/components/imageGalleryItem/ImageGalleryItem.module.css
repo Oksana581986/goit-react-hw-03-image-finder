@@ -1,10 +1,6 @@
-/* .galleryItem {
-width: calc((100% - 5px) / 4);
-box-sizing: border-box; 
-} */
-
 .galleryImg {
-width: 100%;
+max-width: 100%;
 height: auto;
 display: block;
+border: none;
 }
